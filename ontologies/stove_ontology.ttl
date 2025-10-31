@@ -1,0 +1,88 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix : <http://www.example.org/stove_ontology#> .
+
+:stoveOntology a owl:Ontology ;
+    rdfs:comment "Ontology for stove functions and actions." .
+
+# --- Classes (Konsep/Kelas) ---
+
+:Appliance a owl:Class ;
+    rdfs:label "Appliance" ;
+    rdfs:comment "Class for all types of household appliances." .
+
+:Stove a owl:Class ;
+    rdfs:subClassOf :Appliance ;
+    rdfs:label "Stove" ;
+    rdfs:comment "Class for stoves." .
+
+:Function a owl:Class ;
+    rdfs:label "Function" ;
+    rdfs:comment "Class for functions that can be performed by an appliance." .
+
+# --- Properties (Relasi/Properti) ---
+
+:hasFunction a owl:ObjectProperty ;
+    rdfs:domain :Appliance ;
+    rdfs:range :Function ;
+    rdfs:label "has function" ;
+    rdfs:comment "Connects an appliance with its function." .
+
+:implements_mp a owl:DatatypeProperty ;
+    rdfs:domain :Function ;
+    rdfs:range xsd:string ;
+    rdfs:label "implements method profile" ;
+    rdfs:comment "Connects a function with its actions (as a string)." .
+
+:hasStep a owl:ObjectProperty ;
+    rdfs:domain :Appliance ;
+    rdfs:range :Step ;
+    rdfs:label "has step" ;
+    rdfs:comment "Defines a step in a sequence of functions." .
+
+:isFunctionOf a owl:ObjectProperty ;
+    rdfs:domain :Step ;
+    rdfs:range :Function ;
+    rdfs:label "is function of" ;
+    rdfs:comment "Menghubungkan sebuah langkah dengan fungsi yang dieksekusinya." .
+
+:nextStep a owl:ObjectProperty ;
+    rdfs:label "next step" ;
+    rdfs:comment "Connects a step to the subsequent step in a sequence." .
+    
+:Step a owl:Class ;
+    rdfs:label "Step" ;
+    rdfs:comment "Kelas untuk mendefinisikan sebuah langkah dalam sebuah urutan." .
+
+# --- Individuals (Instansi/Data) ---
+
+# Individual: Stove
+:stove a :Stove ;
+    rdfs:label "Stove" ;
+    :hasFunction :powerFunction ;
+    :hasFunction :timeFunction ;
+    :hasStep :step1_powerOn .
+
+# Individual: Functions (instance dari kelas Function)
+:powerFunction a :Function ;
+    rdfs:label "On/Off button" ;
+    rdfs:comment "Fungsi untuk menyalakan atau mematikan microwave." ;
+    :implements_mp "press_button" .
+
+:timeFunction a :Function ;
+    rdfs:label "Increase Button" ;
+    rdfs:comment "Fungsi untuk mengatur waktu." ;
+    :implements_mp "press_button" .
+
+# --- Langkah-langkah Berurutan (Sequenced Steps) ---
+
+:step1_powerOn a :Step ;
+    rdfs:label "Step 1: Power On" ;
+    :isFunctionOf :powerFunction ;
+    :nextStep :step2_setTime .
+
+:step2_setTime a :Step ;
+    rdfs:label "Step 2: Set Time" ;
+    :isFunctionOf :timeFunction .

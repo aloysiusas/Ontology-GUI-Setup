@@ -1,0 +1,99 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix : <http://www.example.org/ketel_ontology#> .
+
+:ketelOntology a owl:Ontology ;
+    rdfs:comment "Ontology for kettle functions and actions with defined order." .
+
+# --- Classes (Konsep/Kelas) ---
+
+:Appliance a owl:Class ;
+    rdfs:label "Appliance" ;
+    rdfs:comment "Class for all types of household appliances." .
+
+:Kettle a owl:Class ;
+    rdfs:subClassOf :Appliance ;
+    rdfs:label "Kettle" ;
+    rdfs:comment "Class for water heating kettles." .
+
+:Function a owl:Class ;
+    rdfs:label "Function" ;
+    rdfs:comment "Class for functions that can be performed by an appliance." .
+
+# --- Properties (Relasi/Properti) ---
+
+:hasFunction a owl:ObjectProperty ;
+    rdfs:domain :Appliance ;
+    rdfs:range :Function ;
+    rdfs:label "has function" ;
+    rdfs:comment "Connects an appliance with its function." .
+
+:implements_mp a owl:DatatypeProperty ;
+    rdfs:domain :Function ;
+    rdfs:range xsd:string ;
+    rdfs:label "implements method profile" ;
+    rdfs:comment "Connects a function with its actions (as a string)." .
+
+:hasStep a owl:ObjectProperty ;
+    rdfs:domain :Appliance ;
+    rdfs:range :Step ;
+    rdfs:label "has step" ;
+    rdfs:comment "Defines a step in a sequence of functions." .
+
+:isFunctionOf a owl:ObjectProperty ;
+    rdfs:domain :Step ;
+    rdfs:range :Function ;
+    rdfs:label "is function of" ;
+    rdfs:comment "Menghubungkan sebuah langkah dengan fungsi yang dieksekusinya." .
+
+:nextStep a owl:ObjectProperty ;
+    rdfs:label "next step" ;
+    rdfs:comment "Connects a step to the subsequent step in a sequence." .
+    
+:Step a owl:Class ;
+    rdfs:label "Step" ;
+    rdfs:comment "Kelas untuk mendefinisikan sebuah langkah dalam sebuah urutan." .
+
+# --- Individuals (Instansi/Data) ---
+
+# Individual: Kettle
+:kettle a :Kettle ;
+    rdfs:label "Kettle" ;
+    :hasFunction :powerFunction ;
+    :hasFunction :lidFunction ;
+    :hasFunction :handleFunction ;
+    :hasStep :step1_powerOn .
+
+# Individual: Fungsi (instance of Function class)
+:powerFunction a :Function ;
+    rdfs:label "kettle rocker switch" ;
+    rdfs:comment "Function to turn the kettle on or off." ;
+    :implements_mp "push" .
+
+:lidFunction a :Function ;
+    rdfs:label "kettle button" ;
+    rdfs:comment "Function to open the kettle lid." ;
+    :implements_mp "push" .
+
+:handleFunction a :Function ;
+    rdfs:label "Kettle handle" ;
+    rdfs:comment "Function to place the kettle on its heating base." ;
+    :implements_mp "pull" .
+
+# --- Sequenced Steps ---
+
+:step1_powerOn a :Step ;
+    rdfs:label "Step 1: Power On" ;
+    :isFunctionOf :powerFunction ;
+    :nextStep :step2_openLid .
+
+:step2_openLid a :Step ;
+    rdfs:label "Step 2: Open Lid" ;
+    :isFunctionOf :lidFunction ;
+    :nextStep :step3_pullHandle .
+
+:step3_pullHandle a :Step ;
+    rdfs:label "Step 3: Pull Handle" ;
+    :isFunctionOf :handleFunction .

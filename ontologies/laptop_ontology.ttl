@@ -1,0 +1,91 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix : <http://www.example.org/laptop_ontology#> .
+
+:laptopOntology a owl:Ontology ;
+    rdfs:comment "A simple ontology for basic laptop user interactions." .
+
+# --- Classes ---
+
+:Appliance a owl:Class ;
+    rdfs:label "Appliance" ;
+    rdfs:comment "A class for all electronic devices." .
+
+:Laptop a owl:Class ;
+    rdfs:subClassOf :Device ;
+    rdfs:label "Laptop" ;
+    rdfs:comment "A class for a laptop computer." .
+
+:Function a owl:Class ;
+    rdfs:label "Function" ;
+    rdfs:comment "A class for user-initiated actions." .
+
+:Step a owl:Class ;
+    rdfs:label "Step" ;
+    rdfs:comment "A class to define a step in a sequence." .
+
+# --- Properties ---
+
+:hasFunction a owl:ObjectProperty ;
+    rdfs:domain :Appliance ;
+    rdfs:range :Function ;
+    rdfs:label "has function" ;
+    rdfs:comment "Connects a device to an function it can perform." .
+
+:implements_mp a owl:DatatypeProperty ;
+    rdfs:domain :Function ;
+    rdfs:range xsd:string ;
+    rdfs:label "implements method profile" ;
+    rdfs:comment "Connects an function to the physical method profile (e.g., 'press_button')." .
+
+:hasStep a owl:ObjectProperty ;
+    rdfs:domain :Device ;
+    rdfs:range :Step ;
+    rdfs:label "has step" ;
+    rdfs:comment "Connects a device to the first step of a sequence." .
+
+:isFunctionOf a owl:ObjectProperty ;
+    rdfs:domain :Step ;
+    rdfs:range :Function ;
+    rdfs:label "is function of" ;
+    rdfs:comment "Connects a step with the function it executes." .
+
+:nextStep a owl:ObjectProperty ;
+    rdfs:domain :Step ;
+    rdfs:range :Step ;
+    rdfs:label "next step" ;
+    rdfs:comment "Connects a step to the next one in a sequence." .
+
+# --- Individuals ---
+
+# Individual: Laptop 
+:laptop a :Laptop ;
+    rdfs:label "Laptop" ;
+    rdfs:comment "An instance of the Laptop class." ;
+    :hasFunction :pushPowerButton ;
+    :hasFunction :touchTouchpad ;
+    :hasStep :step1_powerOn .
+
+# Individuals: Functions (instance of Function)
+:powerFunction a :Function ;
+    rdfs:label "Power" ;
+    rdfs:comment "Action to turn the laptop on or off." ;
+    :implements_mp "press_button" .
+
+:touchFunction a :Function ;
+    rdfs:label "Touchpad" ;
+    rdfs:comment "Action to interact with the cursor." ;
+    :implements_mp "press_button" .
+
+# --- Sequenced Steps ---
+
+:step1_powerOn a :Step ;
+    rdfs:label "Step 1: Power On" ;
+    :isFunctionOf :powerFunction ;
+    :nextStep :step2_useTouchpad .
+
+:step2_useTouchpad a :Step ;
+    rdfs:label "Step 2: Use Touchpad" ;
+    :isFunctionOf :touchFunction .
