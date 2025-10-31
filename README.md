@@ -18,9 +18,7 @@
 
 **How to use?**
 1. Run the program. 
-2. The GUI display will appear as shown in the image. 
-
-![GUI_display](how_to_use/GUI_Display.png)
+2. The GUI display will appear as shown in the image. ![GUI_display](how_to_use/GUI_Display.png)
 
 4. Then, press the “Detect object” button to verify the object using the Gemini API. If it is not recognised, press the button again.
   
@@ -37,6 +35,7 @@
 7. After the system successfully executes the first step, the coordinates will appear on the screen. 
 
 ![Coordinate](how_to_use/Coordinate.png)
+
 8. Display your hand in the camera area so that hand tracking can work. When your hand touches the coordinates, the system will automatically continue executing the second step. Perform these steps until completion.
 
 ![Hand_tracking](how_to_use/Hand_tracking.png)
