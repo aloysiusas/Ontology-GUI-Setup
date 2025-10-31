@@ -19,24 +19,15 @@
 **How to use?**
 1. Run the program. 
 2. The GUI display will appear as shown in the image. 
-
+![](GUI_Display.png)
 3. Then, press the “Detect object” button to verify the object using the Gemini API. If it is not recognised, press the button again.
-
-
-
-
+![](Detect_object.png)
 4. The object is considered verified when the “Appliance ID” displays the object name and the “Available functions” display appears on the left.
-
+![](Verified_object.png)
 5. The system will automatically execute the first step by displaying the process in the “Behaviour Controls” section.
-
-
-
-
-
-
-
+![](System_running.png)
 6. After the system successfully executes the first step, the coordinates will appear on the screen. 
-
+![](Coordinate.png)
 7. Display your hand in the camera area so that hand tracking can work. When your hand touches the coordinates, the system will automatically continue executing the second step. Perform these steps until completion.
-
-
+![](Hand_tracking.png)
+![](Hand_tracking_done.png)
