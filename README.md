@@ -19,7 +19,7 @@
 **How to use?**
 1. Run the program. 
 2. The GUI display will appear as shown in the image. 
-![GUI_display](GUI_Display.png)
+![GUI_display](how to use/GUI_Display.png)
 3. Then, press the “Detect object” button to verify the object using the Gemini API. If it is not recognised, press the button again.
 ![Detect_object](Detect_object.png)
 4. The object is considered verified when the “Appliance ID” displays the object name and the “Available functions” display appears on the left.
